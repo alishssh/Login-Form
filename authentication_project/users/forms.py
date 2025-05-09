@@ -18,6 +18,8 @@ class UserRegisterForm(UserCreationForm):
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
 
+
+
 class UserLoginForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):
         super(UserLoginForm, self).__init__(*args, **kwargs)
@@ -42,10 +44,15 @@ class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['bio', 'location', 'birth_date']
-    
+
     def __init__(self, *args, **kwargs):
         super(ProfileUpdateForm, self).__init__(*args, **kwargs)
-        # Add tailwind classes to form fields
+
         for field_name, field in self.fields.items():
-            field.widget.attrs['class'] = 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
-        self.fields['birth_date'].widget = forms.DateInput(attrs={'type': 'date', 'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'})
+            field.widget.attrs['class'] = (
+                'w-full px-3 py-2 border border-gray-300 '
+                'rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+            )
+
+        # Set input type explicitly for birth_date
+        self.fields['birth_date'].widget.input_type = 'date'
