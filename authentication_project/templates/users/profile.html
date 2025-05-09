@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Profile - Authentication System{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-md">
+    <h1 class="text-2xl font-bold mb-6">User Profile</h1>
+    
+    <div class="mb-8">
+        <h2 class="text-xl font-semibold mb-4">Account Information</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <p class="text-gray-600">Username</p>
+                <p class="font-medium">{{ user.username }}</p>
+            </div>
+            <div>
+                <p class="text-gray-600">Email</p>
+                <p class="font-medium">{{ user.email }}</p>
+            </div>
+            <div>
+                <p class="text-gray-600">First Name</p>
+                <p class="font-medium">{{ user.first_name }}</p>
+            </div>
+            <div>
+                <p class="text-gray-600">Last Name</p>
+                <p class="font-medium">{{ user.last_name }}</p>
+            </div>
+        </div>
+    </div>
+    
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-6">
+            <h2 class="text-xl font-semibold mb-4">Update Profile</h2>
+            <div class="space-y-4">
+                {{ u_form|crispy }}
+                {{ p_form|crispy }}
+            </div>
+        </div>
+        <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
+            Update
+        </button>
+    </form>
+</div>
+{% endblock %}

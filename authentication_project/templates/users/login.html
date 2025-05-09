@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Login - Authentication System{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md">
+    <h1 class="text-2xl font-bold mb-6 text-center">Login</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded mt-4">
+            Login
+        </button>
+    </form>
+    <div class="mt-4 text-center">
+        <p class="text-gray-600">
+            <a href="{% url 'password_reset' %}" class="text-blue-500 hover:underline">Forgot Password?</a>
+        </p>
+        <p class="text-gray-600 mt-2">
+            Don't have an account? <a href="{% url 'register' %}" class="text-blue-500 hover:underline">Register</a>
+        </p>
+    </div>
+</div>
+{% endblock %}
