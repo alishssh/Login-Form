@@ -1,129 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+{% extends 'base.html' %}
 
-    <style>
-        /* Inline CSS */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 0;
-        }
+{% block title %}Register - Authentication System{% endblock %}
 
-        .container {
-            width: 50%;
-            margin: 50px auto;
-            background-color: #ffffff;
-            padding: 30px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-        }
-
-        h1 {
-            text-align: center;
-            font-size: 2rem;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        h2 {
-            font-size: 1.25rem;
-            color: #333;
-            margin-bottom: 12px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            font-weight: bold;
-            color: #333;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        input[type="text"], input[type="email"], input[type="password"], input[type="date"] {
-            width: 100%;
-            padding: 12px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-        button {
-            width: 100%;
-            padding: 12px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        .error {
-            color: red;
-            font-size: 0.9rem;
-            margin-top: 5px;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        <h1>Register</h1>
-        <form method="POST">
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto">
+        <h1 class="text-4xl font-bold mb-8 text-center">Register</h1>
+        
+        {% if messages %}
+        <div class="mb-4">
+            {% for message in messages %}
+            <div class="p-4 {% if message.tags == 'error' %}bg-red-100 text-red-700{% else %}bg-green-100 text-green-700{% endif %} rounded-lg">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        <form method="POST" class="bg-white p-8 rounded-lg shadow-md">
             {% csrf_token %}
             
-            <!-- User Form -->
-            <div class="user-form mb-8">
-                <h2>Register</h2>
-                {% for field in user_form %}
-                    <div class="form-group">
-                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            <!-- User Information -->
+            <div class="mb-8">
+                <h2 class="text-2xl font-semibold mb-4">Account Information</h2>
+                <div class="grid grid-cols-1 gap-4">
+                    {% for field in user_form %}
+                    <div>
+                        <label class="block text-gray-700 mb-2">{{ field.label }}</label>
                         {{ field }}
                         {% if field.errors %}
-                            <div class="error">
-                                {% for error in field.errors %}
-                                    <p>{{ error }}</p>
-                                {% endfor %}
-                            </div>
+                        <div class="text-red-500 text-sm mt-1">
+                            {% for error in field.errors %}
+                            {{ error }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        {% if field.help_text %}
+                        <div class="text-gray-500 text-sm mt-1">{{ field.help_text }}</div>
                         {% endif %}
                     </div>
-                {% endfor %}
+                    {% endfor %}
+                </div>
             </div>
 
-            <!-- Profile Form -->
-            <div class="profile-form mb-8">
-                <h2>Profile Information</h2>
-                {% for field in profile_form %}
-                    <div class="form-group">
-                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                        {{ field }}
-                        {% if field.errors %}
-                            <div class="error">
-                                {% for error in field.errors %}
-                                    <p>{{ error }}</p>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                    </div>
-                {% endfor %}
+            <div class="text-center">
+                <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 rounded-lg">
+                    Register
+                </button>
             </div>
-
-            <!-- Submit Button -->
-            <button type="submit">Register</button>
-        </form>
+         
+        
+        <div class="mt-4 text-center">
+            <p class="text-gray-600">Already have an account? <a href="{% url 'login' %}" class="text-blue-500 hover:underline">Login here</a></p>
+        </div>
     </div>
-
-</body>
-</html>
+</div>
+{% endblock %}
